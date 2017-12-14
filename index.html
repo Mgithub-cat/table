@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	*{
+		padding: 0;
+		margin: 0;
+		outline: none;
+	}
+	.content{
+		width: 800px;
+		height: auto;
+		margin: 30px auto;
+	}
+	table{
+		width: 100%;
+	}
+	tr{
+		width: 20%;
+		height: 30px;
+		text-align: center;
+	}
+	tr:nth-child(2n){
+		background: #ccc;
+	}
+	tr:nth-child(2n + 1){
+		background: #EAEAEA;
+	}
+	button{
+		width: 100px;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		border: none;
+		font-size: 16px;
+		display: block;
+		float: right;
+		margin-right: 3px;
+		background: #62C9E0;
+	}
+	input{
+		width: 80px;
+	}
+	.del{
+		cursor: pointer;
+	}
+</style>
+<body>
+	<div class="content">
+		<table>
+			<tr>
+				<th>姓名</th>
+				<th>性别</th>
+				<th>年龄</th>
+				<th>住址</th>
+				<th>编辑</th>
+			</tr>
+			<tr>
+				<td>Lily</td>
+				<td>女</td>
+				<td>20</td>
+				<td>ty</td>
+				<td class="del">删除</td>
+			</tr>
+			<tr>
+				<td>Lily</td>
+				<td>女</td>
+				<td>20</td>
+				<td>ty</td>
+				<td class="del">删除</td>
+			</tr>
+			<tr>
+				<td>Lily</td>
+				<td>女</td>
+				<td>20</td>
+				<td>ty</td>
+				<td class="del">删除</td>
+			</tr>
+		</table>
+		<button> + </button>
+	</div>
+</body>
+</html>
+<script>
+	/*1获取表格
+	2给表格添加双击
+	3判断nodeName是否为TD
+	4创建表单appendChild插入
+	获取inner Text并清空
+	5失去焦点时onblur将值放回td（保存并删除表单removechild
+	6加类名del，里面写删除按钮
+	7删除按钮找到对应的父元素并删除*/
+	window.onload = function(){
+		let tab = document.querySelector('tbody');
+		let btn = document.querySelector('button');
+		tab.ondblclick = function(e){
+			let ele = e.target;
+			if(ele.nodeName == 'TD' && ele.className != 'del'){
+				let input = document.createElement('input');
+				let old = ele.innerText;
+				ele.innerText = '';
+				ele.appendChild(input);
+				input.value = old;
+				input.onblur = function(){
+					let news = input.value;
+					ele.removeChild(input);
+					ele.innerText = news;
+				}
+			}else if(ele.className == 'del'){
+				tab.removeChild(ele.parentNode);
+			}
+		}
+		btn.onclick = function(){
+			/*tab.innerHTML = `
+			<tr>
+				<td>Lily</td>
+				<td>女</td>
+				<td>20</td>
+				<td>ty</td>
+				<td class="del">删除</td>
+			</tr>`
+			+ tab.innerHTML;*/
+			let trs = document.createElement('tr');
+			trs.innerHTML = `
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td class="del">删除</td>
+			</tr>`
+			tab.appendChild(trs);
+		}
+	}
+</script>
